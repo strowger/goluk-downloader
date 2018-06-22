@@ -37,8 +37,15 @@ cd $TARGET/front
 mkdir button > /dev/null 2> /dev/null
 mkdir driving > /dev/null 2> /dev/null
 mkdir parked > /dev/null 2> /dev/null
+mkdir timelapse > /dev/null 2> /dev/null
+echo "timelapse videos"
+for i in `curl ${CURLOPTSLIST} ${CAMURL}api/videolist?type=5\&maxcount=8000|grep id|awk '{print $2}'|sed s/\"//|sed s/\"\,//`;
+do
+  echo "working on $i.mp4"
+  curl ${CURLOPTSFILE} ${CAMURL}api/video?id=$i -o $i.mp4
+done
 echo "button videos"
-cd button
+cd ../button
 for i in `curl ${CURLOPTSLIST} ${CAMURL}api/videolist?type=4\&maxcount=8000|grep id|awk '{print $2}'|sed s/\"//|sed s/\"\,//`;
 do
   echo "working on $i.mp4"
@@ -72,8 +79,16 @@ cd $TARGET/rear
 mkdir button > /dev/null 2> /dev/null
 mkdir driving > /dev/null 2> /dev/null
 mkdir parked > /dev/null 2> /dev/null
+mkdir timelapse > /dev/null 2> /dev/null
+echo "timelapse videos"
+cd timelapse
+for i in `curl ${CURLOPTSLIST} ${CAMURL}api/videolist?type=5\&maxcount=8000|grep id|awk '{print $2}'|sed s/\"//|sed s/\"\,//`;
+do
+  echo "working on $i.mp4"
+  curl ${CURLOPTSFILE} ${CAMURL}api/video?id=$i -o $i.mp4
+done
 echo "button videos"
-cd button
+cd ../button
 for i in `curl ${CURLOPTSLIST} ${CAMURL}api/videolist?type=4\&maxcount=8000|grep id|awk '{print $2}'|sed s/\"//|sed s/\"\,//`;
 do
   echo "working on $i.mp4"
